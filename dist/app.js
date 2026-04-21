@@ -1,4 +1,21 @@
 "use strict";
+const proverbes = [
+    "La vie est ce qui arrive quand on est occupé à faire d'autres projets.",
+    "Le voyage de mille lieues commence par un premier pas.",
+    "Celui qui déplace une montagne commence par enlever les petites pierres.",
+    "L'échec est le fondement de la réussite.",
+    "Mieux vaut allumer une bougie que maudire l'obscurité.",
+    "La sagesse commence dans l'émerveillement.",
+    "Connais-toi toi-même.",
+    "Ce que tu es est ce que tu fais à plusieurs reprises.",
+    "La simplicité est la sophistication suprême.",
+    "Les obstacles sont ces choses effrayantes que tu vois quand tu détournes les yeux de ton objectif.",
+    "La chance sourit aux audacieux.",
+    "Chaque jour est une nouvelle chance de changer ta vie.",
+    "Le meilleur moment pour planter un arbre, c'était il y a 20 ans. Le deuxième meilleur moment, c'est maintenant.",
+    "La créativité, c'est l'intelligence qui s'amuse.",
+    "Fais de ta vie un rêve, et d'un rêve une réalité.",
+];
 const cookieUn = document.querySelector('.cookie1');
 const cookieDeux = document.querySelector('.cookie2');
 const cookieBox = document.querySelector('#cookieBox');
@@ -6,7 +23,8 @@ const sms = document.querySelector('.sms');
 const title = document.querySelector('h2');
 cookieBox.addEventListener('click', (e) => {
     if (e.target == cookieUn) {
-        console.log(e.target);
+        const proverbe = proverbes[Math.floor(Math.random() * proverbes.length)];
+        sms.querySelector('p').textContent = proverbe;
         cookieUn.classList.toggle('desactive');
         cookieDeux.classList.toggle('active');
         sms.classList.toggle('activesms');
