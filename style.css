@@ -1,104 +1,356 @@
-*{
-    margin: 0;
-    padding: 0;
+/* ── Variables ─────────────────────────────────────────────── */
+:root {
+    --navy:    #070d1a;
+    --navy-2:  #0d1829;
+    --gold:    #c9a84c;
+    --gold-2:  #e8c96a;
+    --gold-dim: rgba(201, 168, 76, 0.18);
+    --parchment: #f4e8c1;
+    --parchment-2: #ecdcaa;
+    --text:    #e8dfc8;
+    --text-dim: rgba(232, 223, 200, 0.55);
+}
+
+/* ── Reset & Base ───────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
+    font-family: 'Lora', Georgia, serif;
+    background: var(--navy);
+    color: var(--text);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    flex-direction:column;
-    gap: 10%;
-    background-image: url('./Image/luke-chesser-pJadQetzTkI-unsplash.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
+    justify-content: space-between;
+    min-height: 100vh;
+    padding: 2rem;
+    position: relative;
 }
 
-#cookieBox{
+/* ── Star Canvas ────────────────────────────────────────────── */
+#stars {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Decorative Corners ─────────────────────────────────────── */
+.deco-corner {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    color: var(--gold);
+    opacity: 0.55;
+    z-index: 1;
+    pointer-events: none;
+}
+.top-left    { top: 1rem;  left: 1rem; }
+.top-right   { top: 1rem;  right: 1rem; }
+.bottom-left { bottom: 1rem; left: 1rem; }
+.bottom-right{ bottom: 1rem; right: 1rem; }
+
+/* ── Header ─────────────────────────────────────────────────── */
+header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
     display: flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    width: 60%;
-    height: 60%;
-    padding-bottom: 15px;
-    background-color:rgba(255, 255, 255, 0.3);
-    border-radius:25px;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    animation: fadeDown 0.9s ease both;
 }
-.cookie{
-  display: flex;
-  justify-content:center;
-  align-items:center;
-  padding-bottom: 60px;
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    color: var(--gold-2);
+    letter-spacing: 0.12em;
+    text-shadow: 0 0 40px rgba(201, 168, 76, 0.4), 0 2px 8px rgba(0,0,0,0.5);
 }
-.cookie1{
-    width: 80%;
+
+.subtitle {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.8;
 }
-.cookie2{
-  width: 80%;
-  display: none;
-  
+
+.title-ornament {
+    color: var(--gold);
+    font-size: 0.7rem;
+    opacity: 0.7;
+    letter-spacing: 0.5em;
+}
+
+/* ── Main Stage ─────────────────────────────────────────────── */
+main {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    max-width: 520px;
+}
+
+/* ── Cookie Stage ───────────────────────────────────────────── */
+.cookie-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2.5rem 3rem;
+    background: linear-gradient(160deg, rgba(13,24,41,0.92) 0%, rgba(7,13,26,0.97) 100%);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    border-radius: 4px;
+    box-shadow:
+        0 0 0 1px rgba(201, 168, 76, 0.08),
+        0 0 60px rgba(201, 168, 76, 0.06),
+        0 20px 60px rgba(0,0,0,0.5);
+    position: relative;
+    animation: fadeUp 0.9s ease 0.2s both;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.cookie-stage::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(201, 168, 76, 0.12);
+    border-radius: 2px;
+    pointer-events: none;
+}
+
+.cookie-glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.cookie {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cookie1, .cookie2 {
+    position: absolute;
+    width: 100%;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cookie2 {
+    display: none;
+    opacity: 0;
+    transform: scale(0.8);
 }
 
 .cookie1:hover {
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-    animation-iteration-count: infinite;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    perspective: 1000px;
+    animation: wiggle 0.6s ease-in-out;
+    filter: drop-shadow(0 0 12px rgba(201,168,76,0.5));
 }
 
+.hint {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+    transition: opacity 0.4s;
+}
 
-
-@keyframes shake {
-    10%, 90% {
-      transform: translate3d(-1px, 0, 0);
-    }
-  
-    20%, 80% {
-      transform: translate3d(2px, 0, 0);
-    }
-  
-    30%, 50%, 70% {
-      transform: translate3d(-4px, 0, 0);
-    }
-  
-    40%, 60% {
-      transform: translate3d(4px, 0, 0);
-    }
-  }
-
-.desactive {
+/* ── Fortune Panel ──────────────────────────────────────────── */
+.sms {
     display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.8rem;
+    width: 100%;
+    animation: revealFortune 0.7s ease both;
 }
+
+.sms.activesms {
+    display: flex;
+}
+
+.fortune-card {
+    width: 100%;
+    background: linear-gradient(135deg, #f4e8c1 0%, #ecdcaa 50%, #e8d69a 100%);
+    border: 1px solid var(--parchment-2);
+    border-radius: 2px;
+    padding: 2rem 2.5rem;
+    box-shadow:
+        0 0 0 4px rgba(201,168,76,0.15),
+        0 4px 30px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+    position: relative;
+    color: #2a1f0e;
+}
+
+.fortune-card::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(139, 100, 30, 0.2);
+    pointer-events: none;
+}
+
+.fortune-ornament {
+    color: #8b6420;
+    margin: 0.8rem 0;
+}
+
+.fortune-ornament.top { margin-bottom: 1.2rem; }
+.fortune-ornament.bottom { margin-top: 1.2rem; }
+.fortune-ornament svg { width: 100%; }
+
+#fortune-text {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    line-height: 1.75;
+    color: #2a1f0e;
+    text-align: center;
+    letter-spacing: 0.02em;
+    min-height: 3.5rem;
+}
+
+/* ── Replay Button ──────────────────────────────────────────── */
+.replay-btn {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.replay-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold-dim);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.replay-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold-2);
+    box-shadow: 0 0 20px rgba(201,168,76,0.2);
+}
+
+.replay-btn:hover::before { transform: scaleX(1); }
+.replay-btn span { font-size: 0.65rem; opacity: 0.7; }
+
+/* ── Footer ─────────────────────────────────────────────────── */
+footer {
+    position: relative;
+    z-index: 2;
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    animation: fadeUp 0.9s ease 0.5s both;
+}
+
+/* ── State Classes ──────────────────────────────────────────── */
+.desactive { display: none !important; }
 
 .active {
-  display: flex; 
+    display: flex !important;
+    opacity: 1 !important;
+    transform: scale(1) !important;
 }
 
-.sms{
-  display: none;
-  color: #fff;
-  font-size: 30px;
-  font-weight: bold;
-}
-.activesms {
-  display: flex;
-  background-color:rgba(255, 255, 255, 0.381);
-  width: 80%;
-  height: 100%;
-  border-radius:25px; 
-  justify-content: center;
-  align-items: center;
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-h2{
-  color: #fff;
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-h1{
-  color: #fff;
-  font-size:40px;
+@keyframes revealFortune {
+    from { opacity: 0; transform: translateY(10px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes wiggle {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(-6deg) scale(1.05); }
+    30%  { transform: rotate(6deg) scale(1.05); }
+    45%  { transform: rotate(-4deg); }
+    60%  { transform: rotate(4deg); }
+    75%  { transform: rotate(-2deg); }
+    90%  { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.2); }
+}
+
+@keyframes cookie-open {
+    0%   { transform: scale(1) rotate(0deg); }
+    30%  { transform: scale(1.15) rotate(-8deg); }
+    60%  { transform: scale(1.1) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50%       { opacity: 1; }
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-height: 700px) {
+    body { padding: 1rem; }
+    .cookie-stage { padding: 1.5rem 2rem; }
+    .cookie { width: 130px; height: 130px; }
+}
+
+@media (max-width: 480px) {
+    .deco-corner { width: 50px; height: 50px; }
+    .cookie-stage { padding: 1.8rem 1.5rem; }
+    .fortune-card { padding: 1.5rem 1.5rem; }
 }

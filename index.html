@@ -1,29 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biscuit Chinois</title>
+    <title>Magic Biscuit</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="./Image/cookie f1.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1>✨✨✨ Magic Biscuit ✨✨✨</h1>
-    <div id="cookieBox">
-        <div class="cookie">
-            <img src="./Image/cookie f2.png" alt="cookief1" class="cookie1">
-            <img src="./Image/cookie f3.png" alt="cookief2" class="cookie2">
-        </div>
-        <h2>Click on me</h2>
-        <div class="sms">
-            <p>Hello world</p>
-        </div>
+    <canvas id="stars"></canvas>
+
+    <div class="deco-corner top-left">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 78 L2 2 L78 2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="2" cy="2" r="3" fill="currentColor"/>
+            <path d="M15 2 L2 15" stroke="currentColor" stroke-width="0.8"/>
+            <path d="M28 2 L2 28" stroke="currentColor" stroke-width="0.5" opacity="0.5"/>
+        </svg>
+    </div>
+    <div class="deco-corner top-right">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M78 78 L78 2 L2 2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="78" cy="2" r="3" fill="currentColor"/>
+            <path d="M65 2 L78 15" stroke="currentColor" stroke-width="0.8"/>
+            <path d="M52 2 L78 28" stroke="currentColor" stroke-width="0.5" opacity="0.5"/>
+        </svg>
+    </div>
+    <div class="deco-corner bottom-left">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 2 L2 78 L78 78" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="2" cy="78" r="3" fill="currentColor"/>
+            <path d="M15 78 L2 65" stroke="currentColor" stroke-width="0.8"/>
+            <path d="M28 78 L2 52" stroke="currentColor" stroke-width="0.5" opacity="0.5"/>
+        </svg>
+    </div>
+    <div class="deco-corner bottom-right">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M78 2 L78 78 L2 78" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="78" cy="78" r="3" fill="currentColor"/>
+            <path d="M65 78 L78 65" stroke="currentColor" stroke-width="0.8"/>
+            <path d="M52 78 L78 52" stroke="currentColor" stroke-width="0.5" opacity="0.5"/>
+        </svg>
     </div>
 
+    <header>
+        <div class="title-ornament">✦</div>
+        <h1>Magic Biscuit</h1>
+        <div class="subtitle">Biscuit de Fortune</div>
+        <div class="title-ornament">✦</div>
+    </header>
+
+    <main id="cookieBox">
+        <div class="cookie-stage">
+            <div class="cookie-glow"></div>
+            <div class="cookie">
+                <img src="./Image/cookie f2.png" alt="biscuit fermé" class="cookie1">
+                <img src="./Image/cookie f3.png" alt="biscuit ouvert" class="cookie2">
+            </div>
+            <p class="hint">Cliquez pour révéler votre fortune</p>
+        </div>
+
+        <div class="sms">
+            <div class="fortune-card">
+                <div class="fortune-ornament top">
+                    <svg viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="10" x2="80" y2="10" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                        <circle cx="100" cy="10" r="4" fill="none" stroke="currentColor" stroke-width="1"/>
+                        <circle cx="100" cy="10" r="1.5" fill="currentColor"/>
+                        <line x1="120" y1="10" x2="200" y2="10" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                        <circle cx="85" cy="10" r="1.5" fill="currentColor" opacity="0.7"/>
+                        <circle cx="115" cy="10" r="1.5" fill="currentColor" opacity="0.7"/>
+                    </svg>
+                </div>
+                <p id="fortune-text"></p>
+                <div class="fortune-ornament bottom">
+                    <svg viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="10" x2="80" y2="10" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                        <circle cx="100" cy="10" r="4" fill="none" stroke="currentColor" stroke-width="1"/>
+                        <circle cx="100" cy="10" r="1.5" fill="currentColor"/>
+                        <line x1="120" y1="10" x2="200" y2="10" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                        <circle cx="85" cy="10" r="1.5" fill="currentColor" opacity="0.7"/>
+                        <circle cx="115" cy="10" r="1.5" fill="currentColor" opacity="0.7"/>
+                    </svg>
+                </div>
+            </div>
+            <button class="replay-btn" id="replayBtn">
+                <span>✦</span> Nouveau biscuit <span>✦</span>
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        <p>✦ &nbsp; Que la fortune vous guide &nbsp; ✦</p>
+    </footer>
+
+    <script src="./dist/app.js"></script>
 </body>
-<script src="./dist/app.js"></script>
 
 </html>
